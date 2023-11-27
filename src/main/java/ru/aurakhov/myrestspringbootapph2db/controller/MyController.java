@@ -3,7 +3,9 @@ package ru.aurakhov.myrestspringbootapph2db.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.aurakhov.myrestspringbootapph2db.entity.Discipline;
 import ru.aurakhov.myrestspringbootapph2db.entity.Student;
+import ru.aurakhov.myrestspringbootapph2db.service.DisciplineService;
 import ru.aurakhov.myrestspringbootapph2db.service.StudentService;
 
 import java.util.List;
@@ -44,4 +46,37 @@ public class MyController {
         studentService.deleteStudent(id);
     }
 
+    //discipline
+    @Autowired
+    private DisciplineService disciplineService;
+
+    @GetMapping("/discipline")
+    public List<Discipline> showAllDiscipline() {
+        List<Discipline> allDiscipline = disciplineService.getAllDiscipline();
+        return allDiscipline;
+    }
+
+    @GetMapping("/discipline/{id}")
+    public Discipline getDiscipline(@PathVariable("id") int id) {
+        return disciplineService.getDiscipline(id);
+    }
+
+    @PostMapping("/discipline")
+    public Discipline saveDiscipline(@RequestBody Discipline discipline) {
+        return disciplineService.saveDiscipline(discipline);
+    }
+
+    @PutMapping("/discipline")
+    public Discipline updateDiscipline(@RequestBody Discipline discipline){
+        disciplineService.saveDiscipline(discipline);
+        return discipline;
+    }
+
+    @DeleteMapping("/discipline{id}")
+    public List<Discipline> updateDiscipline(@PathVariable ("id") int id) {disciplineService.deleteDiscipline(id);
+        List<Discipline> allDiscipline = disciplineService.getAllDiscipline();
+        return allDiscipline;
+    }
 }
+
+

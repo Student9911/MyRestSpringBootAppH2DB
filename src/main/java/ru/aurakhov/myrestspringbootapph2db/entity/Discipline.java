@@ -1,19 +1,18 @@
 package ru.aurakhov.myrestspringbootapph2db.entity;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import javax.persistence.*;
+
 @NoArgsConstructor
 @Data
 @Setter
 @Getter
 @Entity
-@Table(name = "STUDENTS")
-public class Student {
+@Table(name = "DISCIPLINES")
+public class Discipline {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,21 +22,20 @@ public class Student {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "teacher")
+    private String teacher;
 
     @Column(name = "faculty")
     private String faculty;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "point")
+    private int point;
 
 
-
-    public Student(String name, String surname, String faculty, int age) {
+    public Discipline(String name, String teacher, String faculty, int point) {
         this.name = name;
-        this.surname = surname;
+        this.teacher = teacher;
         this.faculty = faculty;
-        this.age = age;
+        this.point = point;
     }
 }
