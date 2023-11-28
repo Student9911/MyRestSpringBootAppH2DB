@@ -41,6 +41,8 @@ public class StudentDAOImpl implements StudentDAO {
         Query query = entityManager.createQuery("delete from Student "
                 + " where id =:studentId");
         query.setParameter("studentId", id);
-        query.executeUpdate();
-    }
+        query.executeUpdate();    }
+
+
+
 }

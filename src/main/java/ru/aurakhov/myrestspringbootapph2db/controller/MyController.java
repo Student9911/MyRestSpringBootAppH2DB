@@ -1,7 +1,10 @@
 package ru.aurakhov.myrestspringbootapph2db.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.aurakhov.myrestspringbootapph2db.entity.Discipline;
 import ru.aurakhov.myrestspringbootapph2db.entity.Student;
@@ -20,23 +23,31 @@ public class MyController {
 
     @GetMapping("/students")
     public List<Student> showAllStudents() {
-        List<Student> allStudents = studentService.getAllStudents();
-        return allStudents;
+        try {
+
+        }catch ()
+        return studentService.getAllStudents();
     }
 
     @GetMapping("student/{id}")
-    public Student getStudent(@PathVariable("id") int id) {
-        return studentService.getStudent(id);
+    public String getStudent(@PathVariable("id") int id) {
+        if (studentService.getStudent(id) != null) {
+            return studentService.getStudent(id).toString();
+        }
+       return "не удалось выполнить команду";
     }
 
     @PostMapping("/students")
-    public Student saveStudent(@RequestBody Student student) {
+    public String saveStudent(@RequestBody Student student) {
         log.info(String.valueOf(student));
-        return studentService.saveStudent(student);
+        if (studentService.saveStudent(student) != null) {
+            return "не удалось выполнить команду";
+        }
+        return studentService.saveStudent(student).toString();
     }
 
     @PutMapping("/students")
-    public Student updateStudent(@RequestBody Student student){
+    public Student updateStudent(@RequestBody Student student) {
         studentService.saveStudent(student);
         return student;
     }
@@ -67,16 +78,27 @@ public class MyController {
     }
 
     @PutMapping("/discipline")
-    public Discipline updateDiscipline(@RequestBody Discipline discipline){
+    public Discipline updateDiscipline(@RequestBody Discipline discipline) {
         disciplineService.saveDiscipline(discipline);
         return discipline;
     }
 
     @DeleteMapping("/discipline{id}")
-    public List<Discipline> updateDiscipline(@PathVariable ("id") int id) {disciplineService.deleteDiscipline(id);
+    public List<Discipline> updateDiscipline(@PathVariable("id") int id) {
+        disciplineService.deleteDiscipline(id);
         List<Discipline> allDiscipline = disciplineService.getAllDiscipline();
         return allDiscipline;
     }
+
+
+    public ResponseEntity<Response> responseEntity() {
+        Response response = new Response();
+        // Логика создания объекта response
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+
 }
 
 
