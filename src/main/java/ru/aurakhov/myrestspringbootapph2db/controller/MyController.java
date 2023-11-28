@@ -1,14 +1,9 @@
 package ru.aurakhov.myrestspringbootapph2db.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.aurakhov.myrestspringbootapph2db.entity.Discipline;
 import ru.aurakhov.myrestspringbootapph2db.entity.Student;
-import ru.aurakhov.myrestspringbootapph2db.service.DisciplineService;
 import ru.aurakhov.myrestspringbootapph2db.service.StudentService;
 
 import java.util.List;
@@ -21,11 +16,10 @@ public class MyController {
     @Autowired
     private StudentService studentService;
 
+
     @GetMapping("/students")
     public List<Student> showAllStudents() {
-        try {
 
-        }catch ()
         return studentService.getAllStudents();
     }
 
@@ -34,16 +28,16 @@ public class MyController {
         if (studentService.getStudent(id) != null) {
             return studentService.getStudent(id).toString();
         }
-       return "не удалось выполнить команду";
+        return "не удалось выполнить команду";
     }
 
     @PostMapping("/students")
     public String saveStudent(@RequestBody Student student) {
         log.info(String.valueOf(student));
         if (studentService.saveStudent(student) != null) {
-            return "не удалось выполнить команду";
+            return studentService.saveStudent(student).toString();
         }
-        return studentService.saveStudent(student).toString();
+        return "не удалось выполнить команду";
     }
 
     @PutMapping("/students")
@@ -57,46 +51,7 @@ public class MyController {
         studentService.deleteStudent(id);
     }
 
-    //discipline
-    @Autowired
-    private DisciplineService disciplineService;
 
-    @GetMapping("/discipline")
-    public List<Discipline> showAllDiscipline() {
-        List<Discipline> allDiscipline = disciplineService.getAllDiscipline();
-        return allDiscipline;
-    }
-
-    @GetMapping("/discipline/{id}")
-    public Discipline getDiscipline(@PathVariable("id") int id) {
-        return disciplineService.getDiscipline(id);
-    }
-
-    @PostMapping("/discipline")
-    public Discipline saveDiscipline(@RequestBody Discipline discipline) {
-        return disciplineService.saveDiscipline(discipline);
-    }
-
-    @PutMapping("/discipline")
-    public Discipline updateDiscipline(@RequestBody Discipline discipline) {
-        disciplineService.saveDiscipline(discipline);
-        return discipline;
-    }
-
-    @DeleteMapping("/discipline{id}")
-    public List<Discipline> updateDiscipline(@PathVariable("id") int id) {
-        disciplineService.deleteDiscipline(id);
-        List<Discipline> allDiscipline = disciplineService.getAllDiscipline();
-        return allDiscipline;
-    }
-
-
-    public ResponseEntity<Response> responseEntity() {
-        Response response = new Response();
-        // Логика создания объекта response
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-    }
 
 
 }
