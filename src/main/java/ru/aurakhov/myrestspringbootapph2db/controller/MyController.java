@@ -2,6 +2,8 @@ package ru.aurakhov.myrestspringbootapph2db.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.aurakhov.myrestspringbootapph2db.entity.Student;
 import ru.aurakhov.myrestspringbootapph2db.service.StudentService;
@@ -31,14 +33,25 @@ public class MyController {
         return "не удалось выполнить команду";
     }
 
-    @PostMapping("/students")
+   /* @PostMapping("/students")
     public String saveStudent(@RequestBody Student student) {
         log.info(String.valueOf(student));
         if (studentService.saveStudent(student) != null) {
             return studentService.saveStudent(student).toString();
         }
         return "не удалось выполнить команду";
-    }
+    }*/
+   @PostMapping("/students")
+   public String saveStudent(@RequestBody Student student) {
+       log.info(String.valueOf(student));
+       try {
+           Student savedStudent = studentService.saveStudent(student);
+           return ResponseEntity.ok(savedStudent).toString();
+       } catch (Exception ex) {
+           String errorMessage = "Произошла ошибка при сохранении студента: " + ex.getMessage();
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage).toString();
+       }
+   }
 
     @PutMapping("/students")
     public Student updateStudent(@RequestBody Student student) {
